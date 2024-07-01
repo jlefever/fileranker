@@ -40,16 +40,15 @@ class Sequence(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["name"], name="unique_sequence_name"),
-            models.UniqueConstraint(fields=["seed"], name="unique_sequence_seed"),
+            models.UniqueConstraint(fields=["name"], name="unique_sequence_name")
         ]
 
 
 class SequenceItem(models.Model):
     sequence = models.ForeignKey(Sequence, on_delete=models.CASCADE)
     position = models.IntegerField()
-    file_a = models.ForeignKey(File, related_name="a_items", on_delete=models.CASCADE)
-    file_b = models.ForeignKey(File, related_name="b_items", on_delete=models.CASCADE)
+    file_a = models.ForeignKey(File, related_name="+", on_delete=models.CASCADE)
+    file_b = models.ForeignKey(File, related_name="+", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.sequence} ({self.position}): {self.file_a.filename} vs {self.file_b.filename}"
@@ -79,12 +78,7 @@ class Response(models.Model):
         UNSURE: "Unsure",
     }
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    file_a = models.ForeignKey(
-        File, related_name="a_responses", on_delete=models.CASCADE
-    )
-    file_b = models.ForeignKey(
-        File, related_name="b_responses", on_delete=models.CASCADE
-    )
+    item = models.ForeignKey(SequenceItem, on_delete=models.CASCADE)
     value = models.CharField(max_length=1, choices=VALUE_CHOICES)
 
     def __str__(self):
@@ -92,11 +86,5 @@ class Response(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                fields=["user", "file_a", "file_b"],
-                name="unique_files_per_response",
-            ),
-            models.CheckConstraint(
-                check=Q(file_a_id__lt=F("file_b_id")), name="response_a_lt_b"
-            ),
+            models.UniqueConstraint(fields=["user", "item"], name="unique_response")
         ]

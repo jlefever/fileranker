@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row gx-2">
+        <div class="col overflow-hidden">
+            <div class="ms-3" style="font-size: 12px;">
+                <p class="font-monospace">File A: {{ item.file_a.filename }}</p>
+                <pre><code>{{ item.file_a.content }}</code></pre>
+            </div>
+        </div>
+        <div class="col overflow-hidden">
+            <div class="me-3" style="font-size: 12px;">
+                <p class="font-monospace">File B: {{ item.file_b.filename }}</p>
+                <pre><code>{{ item.file_b.content }}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form class="mx-auto" style="max-width: 300px" method="post" action="{% url 'answer'%}">
+        {% csrf_token %}
+        <input type="hidden" name="item_id" value="{{ item.id }}">
+        <input type="hidden" name="sequence_name" value="{{ sequence_name }}">
+        <fieldset>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="A" name="preference" value="A" required/>
+                <label class="form-check-label" for="A">File A is more cohesive</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="B" name="preference" value="B" required/>
+                <label class="form-check-label" for="B">File B is more cohesive</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="U" name="preference" value="U" required/>
+                <label class="form-check-label" for="U">I am unsure</label>
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+</div>
+{% endblock %}

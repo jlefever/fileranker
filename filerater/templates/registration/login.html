@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="mx-auto" style="max-width: 400px" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        Your username and password didn't match.
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <label for="usernameInput" class="form-label">Username</label>
+        <input name="username" type="text" id="usernameInput" class="form-control" autofocus="" autocapitalize="none"
+            autocomplete="username" required="">
+    </div>
+    <div class="mb-3">
+        <label for="passwordInput" class="form-label">Password</label>
+        <input name="password" type="password" id="passwordInput" class="form-control" autocomplete="current-password"
+            required="">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
