@@ -80,6 +80,8 @@ class Response(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(SequenceItem, on_delete=models.CASCADE)
     value = models.CharField(max_length=1, choices=VALUE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user} - {self.value}"
