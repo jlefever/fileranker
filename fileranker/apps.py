@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FileraterConfig(AppConfig):
+class FilerankerConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "filerater"
+    name = "fileranker"

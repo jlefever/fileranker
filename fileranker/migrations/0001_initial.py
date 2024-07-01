@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='file',
             name='project',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='filerater.project'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fileranker.project'),
         ),
         migrations.AddField(
             model_name='response',
@@ -72,22 +72,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='sequenceitem',
             name='file_a',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='filerater.file'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='fileranker.file'),
         ),
         migrations.AddField(
             model_name='sequenceitem',
             name='file_b',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='filerater.file'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='fileranker.file'),
         ),
         migrations.AddField(
             model_name='sequenceitem',
             name='sequence',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='filerater.sequence'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fileranker.sequence'),
         ),
         migrations.AddField(
             model_name='response',
             name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='filerater.sequenceitem'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fileranker.sequenceitem'),
         ),
         migrations.AddConstraint(
             model_name='file',

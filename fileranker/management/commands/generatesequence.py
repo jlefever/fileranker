@@ -3,7 +3,7 @@ import random
 
 from django.core.management.base import BaseCommand, CommandParser
 
-from filerater import models
+from fileranker import models
 
 
 class Command(BaseCommand):

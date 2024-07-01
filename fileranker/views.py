@@ -9,7 +9,7 @@ from .models import Response, Sequence, SequenceItem
 @login_required
 def index(request):
     seqs = Sequence.objects.all().order_by("id")
-    return render(request, "filerater/index.html", {"seqs": seqs})
+    return render(request, "fileranker/index.html", {"seqs": seqs})
 
 
 @login_required
@@ -17,7 +17,7 @@ def index(request):
 def sequence(request, name):
     item = get_current_item(request.user, name)
     ctx = {"item": item, "sequence_name": name}
-    return render(request, "filerater/sequence.html", ctx)
+    return render(request, "fileranker/sequence.html", ctx)
 
 
 @login_required
