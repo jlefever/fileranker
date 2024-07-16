@@ -39,18 +39,16 @@ class Command(BaseCommand):
         parser.add_argument("sequence_name", type=str)
         parser.add_argument("projects", nargs="+", type=str)
         parser.add_argument("--ratio", type=float)
-        parser.add_argument("--seed", type=int)
 
     def handle(self, **options):
         sequence_name = options["sequence_name"]
         projects = options["projects"]
         ratio = options["ratio"]
-        seed = options["seed"]
         files = list(models.File.objects.filter(project__name__in=projects))
         locs = [len(f.content.splitlines()) for f in files]
         pairs = sample_neighbor(locs, ratio=ratio)
         pairs = [(files[i].id, files[j].id) for i, j in pairs]
-        seq = models.Sequence.objects.create(name=sequence_name, seed=seed)
+        seq = models.Sequence.objects.create(name=sequence_name)
         seq.save()
         for pos, (i, j) in enumerate(pairs):
             models.SequenceItem.objects.create(

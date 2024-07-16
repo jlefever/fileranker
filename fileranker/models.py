@@ -19,6 +19,8 @@ class File(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     filename = models.TextField()
     content = models.TextField()
+    lloc = models.IntegerField(null=True)
+    entities = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.project}: {self.filename}"
@@ -33,7 +35,6 @@ class File(models.Model):
 
 class Sequence(models.Model):
     name = models.TextField()
-    seed = models.IntegerField()
 
     def __str__(self):
         return self.name

@@ -12,21 +12,16 @@ class Command(BaseCommand):
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument("sequence_name", type=str)
         parser.add_argument("projects", nargs="+", type=str)
-        parser.add_argument("--seed", type=int)
 
     def handle(self, **options):
         sequence_name = options["sequence_name"]
         projects = options["projects"]
-        seed = options["seed"]
         files = models.File.objects.filter(project__name__in=projects).values("id")
         files = sorted([f["id"] for f in files])
         pairs = list(it.combinations_with_replacement(files, 2))
         pairs = [(a, b) for (a, b) in pairs if a != b]
-        if seed is None:
-            seed = random.randint(0, (2 ** 16) - 1)
-        random.seed(seed)
         random.shuffle(pairs)
-        seq = models.Sequence.objects.create(name=sequence_name, seed=seed)
+        seq = models.Sequence.objects.create(name=sequence_name)
         seq.save()
         for i, (a, b) in enumerate(pairs):
             models.SequenceItem.objects.create(
