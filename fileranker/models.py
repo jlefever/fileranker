@@ -70,17 +70,23 @@ class SequenceItem(models.Model):
 
 
 class Response(models.Model):
-    PREFER_A = "A"
-    PREFER_B = "B"
+    STRONG_A = "SA"
+    WEAK_A = "WA"
+    STRONG_B = "SB"
+    WEAK_B = "WB"
+    EQUIVALENT = "E"
     UNSURE = "U"
     VALUE_CHOICES = {
-        PREFER_A: "Prefer A",
-        PREFER_B: "Prefer B",
+        STRONG_A: "Strong A",
+        WEAK_A: "Weak A",
+        STRONG_B: "Strong B",
+        WEAK_B: "Weak B",
+        EQUIVALENT: "Equivalent",
         UNSURE: "Unsure",
     }
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(SequenceItem, on_delete=models.CASCADE)
-    value = models.CharField(max_length=1, choices=VALUE_CHOICES)
+    value = models.CharField(max_length=2, choices=VALUE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

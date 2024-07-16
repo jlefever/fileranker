@@ -23,22 +23,34 @@
     </div>
 </div>
 <div class="container">
-    <form class="mx-auto" style="max-width: 300px" method="post" action="{% url 'answer'%}">
+    <form class="mx-auto" style="max-width: 500px" method="post" action="{% url 'answer'%}">
         {% csrf_token %}
         <input type="hidden" name="item_id" value="{{ item.id }}">
         <input type="hidden" name="sequence_name" value="{{ sequence_name }}">
         <fieldset>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="A" name="preference" value="A" required/>
-                <label class="form-check-label" for="A">File A is more cohesive</label>
+                <input class="form-check-input" type="radio" id="SA" name="preference" value="SA" required/>
+                <label class="form-check-label" for="SA"><strong>Strong A:</strong> File A is much more cohesive</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="B" name="preference" value="B" required/>
-                <label class="form-check-label" for="B">File B is more cohesive</label>
+                <input class="form-check-input" type="radio" id="WA" name="preference" value="WA" required/>
+                <label class="form-check-label" for="WA"><strong>Weak A:</strong> File A is a little bit more cohesive</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="E" name="preference" value="E" required/>
+                <label class="form-check-label" for="E"><strong>Equivalent:</strong> The two files have an equivalent degree of cohesion</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="WB" name="preference" value="WB" required/>
+                <label class="form-check-label" for="WB"><strong>Weak B:</strong> File B is a little bit more cohesive</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="SB" name="preference" value="SB" required/>
+                <label class="form-check-label" for="SB"><strong>Strong B:</strong> File B is much more cohesive</label>
             </div>
             <div class="form-check mb-2">
                 <input class="form-check-input" type="radio" id="U" name="preference" value="U" required/>
-                <label class="form-check-label" for="U">I am unsure</label>
+                <label class="form-check-label" for="U">Skip</label>
             </div>
         </fieldset>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
