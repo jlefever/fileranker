@@ -21,6 +21,7 @@ class File(models.Model):
     content = models.TextField()
     lloc = models.IntegerField(null=True)
     entities = models.IntegerField(null=True)
+    commits = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.project}: {self.filename}"

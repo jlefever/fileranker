@@ -26,6 +26,7 @@ class Command(BaseCommand):
                     content=row["content"],
                     lloc=row["lloc"],
                     entities=row["entities"],
+                    commits=row["commits"],
                 ).save()
 
         self.stdout.write(f"Imported {len(df)} files")
