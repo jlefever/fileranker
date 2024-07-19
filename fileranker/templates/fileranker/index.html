@@ -3,7 +3,12 @@
 {% block content %}
 <div class="container">
     {% for seq in seqs %}
-    <p><a href="{% url 'sequence' seq.name %}">{{seq.name}}</a></p>
-{% endfor %}
+    <div>
+        <p><a href="{% url 'sequence' seq.name %}">{{ seq.display_name|default:seq.name }}</a></p>
+        {% if seq.description %}
+        <p>{{ seq.description }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -22,14 +22,6 @@
                 </a>
             </div>
 
-            <!-- <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
-            </ul> -->
-
             {% if user.is_authenticated %}
             <form class="col-md-3 text-end" method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -43,7 +35,7 @@
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <p class="col-md-4 mb-0 text-body-secondary">ICSE 2025</p>
+            <p class="col-md-4 mb-0 text-body-secondary">FSE 2025</p>
         </footer>
     </div>
 

@@ -1,23 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if question %}
+
 <div class="container">
-    <div class="row">
-        <p>This is pair #{{ item.position }} in this sequence.</p>
-    </div>
+    <div class="alert alert-primary" role="alert">
+        <div class="row">
+            <p>This is number <strong>{{ info.position }}</strong> out of a total of <strong>{{ info.total }}</strong> questions. Your goal is to complete <strong>{{ info.goal }}</strong> questions.</p>
+        </div>
+        <div class="progress" role="progressbar">
+            <div class="progress-bar progress-bar-striped" style="width: {{ info.percent }}%"></div>
+          </div>
+      </div>
+
 </div>
-<div class="container-fluid">
+<div class="container-fluid pt-3" style="max-width: 2200px;">
     <div class="row gx-2">
         <div class="col overflow-hidden">
             <div class="ms-3" style="font-size: 12px;">
-                <p class="font-monospace">File A: {{ item.file_a.filename }}</p>
-                <pre><code>{{ item.file_a.content }}</code></pre>
+                <p class="font-monospace">File A: {{ question.filename_a }}</p>
+                <pre><code>{{ question.content_a }}</code></pre>
             </div>
         </div>
         <div class="col overflow-hidden">
             <div class="me-3" style="font-size: 12px;">
-                <p class="font-monospace">File B: {{ item.file_b.filename }}</p>
-                <pre><code>{{ item.file_b.content }}</code></pre>
+                <p class="font-monospace">File B: {{ question.filename_b }}</p>
+                <pre><code>{{ question.content_b }}</code></pre>
             </div>
         </div>
     </div>
@@ -25,35 +33,43 @@
 <div class="container">
     <form class="mx-auto" style="max-width: 500px" method="post" action="{% url 'answer'%}">
         {% csrf_token %}
-        <input type="hidden" name="item_id" value="{{ item.id }}">
+        <input type="hidden" name="question_id" value="{{ question.id }}">
         <input type="hidden" name="sequence_name" value="{{ sequence_name }}">
         <fieldset>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="SA" name="preference" value="SA" required/>
+                <input class="form-check-input" type="radio" id="SA" name="preference" value="SA" required />
                 <label class="form-check-label" for="SA"><strong>Strong A:</strong> File A is much more cohesive</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="WA" name="preference" value="WA" required/>
-                <label class="form-check-label" for="WA"><strong>Weak A:</strong> File A is a little bit more cohesive</label>
+                <input class="form-check-input" type="radio" id="WA" name="preference" value="WA" required />
+                <label class="form-check-label" for="WA"><strong>Weak A:</strong> File A is a little bit more
+                    cohesive</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="E" name="preference" value="E" required/>
-                <label class="form-check-label" for="E"><strong>Equivalent:</strong> The two files have an equivalent degree of cohesion</label>
+                <input class="form-check-input" type="radio" id="E" name="preference" value="E" required />
+                <label class="form-check-label" for="E"><strong>Equivalent:</strong> The two files have an equivalent
+                    degree of cohesion</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="WB" name="preference" value="WB" required/>
-                <label class="form-check-label" for="WB"><strong>Weak B:</strong> File B is a little bit more cohesive</label>
+                <input class="form-check-input" type="radio" id="WB" name="preference" value="WB" required />
+                <label class="form-check-label" for="WB"><strong>Weak B:</strong> File B is a little bit more
+                    cohesive</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="SB" name="preference" value="SB" required/>
+                <input class="form-check-input" type="radio" id="SB" name="preference" value="SB" required />
                 <label class="form-check-label" for="SB"><strong>Strong B:</strong> File B is much more cohesive</label>
             </div>
             <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" id="U" name="preference" value="U" required/>
+                <input class="form-check-input" type="radio" id="U" name="preference" value="U" required />
                 <label class="form-check-label" for="U">Skip</label>
             </div>
         </fieldset>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
 </div>
+{% else %}
+<div class="container">
+    <p>No unanswered questions in this sequence.</p>
+</div>
+{% endif %}
 {% endblock %}
