@@ -20,6 +20,7 @@
         <input name="password" type="password" id="passwordInput" class="form-control" autocomplete="current-password"
             required="">
     </div>
+    <input type="hidden" name="next" value="{{ next }}">
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}
