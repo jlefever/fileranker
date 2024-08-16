@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("sequences/<name>/", views.sequence, name="sequence"),
+    path("review/<name>/<position>/", views.review, name="review"),
     path("answer/", views.answer, name="answer"),
     path("responses.csv", views.download_responses_csv, name="download_responses_csv"),
     path("sequences.csv", views.download_sequences_csv, name="download_sequences_csv"),

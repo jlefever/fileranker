@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.timezone import localtime
 from django.views.decorators.http import require_http_methods
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 
 from .models import Question, Sequence
 from .models import Response as ResponseModel
@@ -21,6 +23,29 @@ def index(request):
 @require_http_methods(["GET"])
 def sequence(request, name):
     question = get_current_question(request.user, name)
+    if question is not None:
+        goal = question.sequence.goal
+        total = Question.objects.filter(sequence=question.sequence).count()
+        if goal is None:
+            goal = total
+        percent = (question.position / goal) * 100
+        info = {
+            "position": question.position + 1,
+            "goal": goal,
+            "total": total,
+            "percent": percent,
+        }
+        ctx = {"question": question, "sequence_name": name, "info": info}
+        return render(request, "fileranker/sequence.html", ctx)
+    else:
+        ctx = {"question": question, "sequence_name": name}
+        return render(request, "fileranker/sequence.html", ctx)
+
+
+@login_required
+@require_http_methods(["GET"])
+def review(request, name, position):
+    question = get_question(request.user, name, position)
     if question is not None:
         goal = question.sequence.goal
         total = Question.objects.filter(sequence=question.sequence).count()
@@ -66,6 +91,30 @@ def get_current_question(user, sequence_name):
         .first()
     )
 
+
+def get_question(user, sequence_name, position):
+    try:
+        # Retrieve the sequence object by its name
+        sequence = Sequence.objects.get(name=sequence_name)
+        
+        # Retrieve the question object by sequence and position
+        question = Question.objects.get(sequence=sequence, position=position)
+        
+        # Check if the user is an admin
+        if user.is_superuser:
+            return question
+        
+        # Check if the user has responded to the question
+        response_exists = ResponseModel.objects.filter(user=user, question=question).exists()
+        
+        if response_exists:
+            return question
+        else:
+            raise PermissionDenied("You must respond to this question before viewing it.")
+    
+    except (Sequence.DoesNotExist, Question.DoesNotExist):
+        # Handle the case where the sequence or question does not exist
+        return None
 
 @user_passes_test(lambda u: u.is_superuser)
 def download_responses_csv(request):
